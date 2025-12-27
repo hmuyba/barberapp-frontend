@@ -1,0 +1,178 @@
+<div class="dashboard-container">
+  <!-- Header con Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-barbero">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="bi bi-scissors me-2"></i>
+        BarberApp - Barbero
+      </a>
+      <div class="d-flex align-items-center">
+        <span class="text-white me-3">
+          <i class="bi bi-person-badge me-1"></i>
+          {{ currentUser?.fullName }}
+        </span>
+        <button class="btn btn-outline-light btn-sm" (click)="logout()">
+          <i class="bi bi-box-arrow-right me-1"></i>
+          Salir
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido Principal -->
+  <div class="container py-4">
+    <!-- Hero Section -->
+    <div class="hero-section mb-4">
+      <h2>Panel de Barbero</h2>
+      <p class="text-muted">{{ currentUser?.fullName }}</p>
+      <p class="fw-bold">Hoy: {{ fechaHoy() }}</p>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-success" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-2 text-muted">Cargando agenda...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="alert alert-danger">
+      <i class="bi bi-exclamation-triangle me-2"></i>
+      {{ error }}
+      <button class="btn btn-sm btn-outline-danger ms-3" (click)="loadData()">
+        Reintentar
+      </button>
+    </div>
+
+    <!-- Contenido cuando no está cargando -->
+    <div *ngIf="!loading">
+      <!-- Estadísticas -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-4">
+          <div class="card stats-card card-blue">
+            <div class="card-body text-center">
+              <i class="bi bi-calendar3 display-4"></i>
+              <h2 class="mt-2">{{ stats.totalAppointmentsToday }}</h2>
+              <p class="text-muted mb-0">Citas Hoy</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card stats-card card-green">
+            <div class="card-body text-center">
+              <i class="bi bi-check-circle display-4"></i>
+              <h2 class="mt-2">{{ stats.completedToday }}</h2>
+              <p class="text-muted mb-0">Completadas</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card stats-card card-purple">
+            <div class="card-body text-center">
+              <i class="bi bi-cash display-4"></i>
+              <h2 class="mt-2">Bs. {{ stats.incomeToday }}</h2>
+              <p class="text-muted mb-0">Ingresos</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div class="row g-2 mb-4">
+        <div class="col-md-6">
+          <button
+            class="btn btn-success w-100"
+            (click)="gestionarDisponibilidad()"
+          >
+            <i class="bi bi-clock me-2"></i>
+            Mi Disponibilidad
+          </button>
+        </div>
+        <div class="col-md-6">
+          <button
+            class="btn btn-outline-secondary w-100"
+            (click)="verEstadisticas()"
+          >
+            <i class="bi bi-graph-up me-2"></i>
+            Estadísticas
+          </button>
+        </div>
+      </div>
+
+      <!-- Agenda de Hoy -->
+      <section>
+        <h4 class="mb-3">
+          <i class="bi bi-calendar-check me-2"></i>
+          Agenda de Hoy
+        </h4>
+
+        <div
+          *ngFor="let cita of agendaHoy"
+          class="card cita-card mb-3"
+          [ngClass]="getCardClass(cita)"
+        >
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <span class="badge" [ngClass]="getStatusBadgeClass(cita.status)">
+                <i
+                  *ngIf="isProxima(cita.dateTime)"
+                  class="bi bi-alarm me-1"
+                ></i>
+                {{ getStatusLabel(cita.status) }}
+                <span *ngIf="isProxima(cita.dateTime)"> - PRÓXIMA</span>
+              </span>
+              <span class="fw-bold">{{
+                getTimeRange(cita.dateTime, cita.serviceDuration)
+              }}</span>
+            </div>
+
+            <p class="mb-1">
+              <strong>{{ cita.clientName }}</strong>
+            </p>
+            <p class="mb-1 text-muted small">
+              <i class="bi bi-phone me-1"></i>{{ cita.clientPhone }}
+            </p>
+            <p class="mb-2 text-muted">
+              <i class="bi bi-scissors me-1"></i>{{ cita.serviceName }}
+              <span class="ms-2 text-muted small"
+                >({{ cita.serviceDuration }} min)</span
+              >
+            </p>
+
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <span class="h5 mb-0">Bs. {{ cita.servicePrice }}</span>
+              <div>
+                <button
+                  *ngIf="
+                    cita.status !== 'Completed' && cita.status !== 'Cancelled'
+                  "
+                  class="btn btn-sm btn-success me-2"
+                  (click)="marcarCompletada(cita.id)"
+                >
+                  <i class="bi bi-check-lg me-1"></i>
+                  Marcar Completada
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-secondary"
+                  (click)="llamarCliente(cita.clientPhone)"
+                >
+                  <i class="bi bi-telephone"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sin citas -->
+        <div *ngIf="agendaHoy.length === 0" class="card">
+          <div class="card-body text-center text-muted py-5">
+            <i class="bi bi-calendar-x display-4 d-block mb-3"></i>
+            <h5>No tienes citas programadas para hoy</h5>
+            <p class="mb-0">¡Disfruta tu día libre!</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

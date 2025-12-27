@@ -1,0 +1,120 @@
+.agendar-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.bg-cliente {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+// Avatar para barberos
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+// Cards de barbero
+.barber-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &.selected {
+    border-color: #667eea;
+    background-color: #f0f3ff;
+  }
+}
+
+// Cards de servicio
+.service-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &.selected {
+    border-color: #667eea;
+    background-color: #f0f3ff;
+  }
+}
+
+// Grid de horarios
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
+}
+
+.slot-btn {
+  padding: 10px 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+}
+
+// Progress bar
+.progress-container {
+  .progress {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    transition: width 0.3s ease;
+  }
+}
+
+// Success container
+.success-container {
+  .success-icon {
+    animation: scaleIn 0.5s ease;
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Responsive
+@media (max-width: 576px) {
+  .slots-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}
