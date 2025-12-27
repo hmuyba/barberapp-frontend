@@ -1,59 +1,142 @@
-# BarberAppFrontend
+# 💈 BarberApp Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.12.
+Aplicación web para el Sistema de Gestión de Citas para Barberías, desarrollada como proyecto final del Diplomado en Desarrollo Web y Móvil Full Stack.
 
-## Development server
+## 🚀 Tecnologías
 
-To start a local development server, run:
+- **Framework:** Angular 19
+- **Lenguaje:** TypeScript 5.x
+- **UI Framework:** Bootstrap 5
+- **Estilos:** SCSS
+- **Patrón:** Componentes Standalone
+- **HTTP Client:** Angular HttpClient
+- **Routing:** Angular Router con Guards
 
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── app/
+│   ├── core/                    # Servicios, guards, interceptors, modelos
+│   │   ├── guards/
+│   │   ├── interceptors/
+│   │   ├── models/
+│   │   └── services/
+│   ├── features/                # Módulos por funcionalidad
+│   │   ├── auth/               # Login, Register
+│   │   ├── cliente/            # Dashboard, Agendar cita
+│   │   ├── barbero/            # Dashboard barbero
+│   │   └── admin/              # Dashboard admin
+│   └── shared/                  # Componentes compartidos
+├── assets/
+└── environments/
+```
+
+## ⚙️ Configuración
+
+### 1. Requisitos Previos
+- Node.js 18+
+- npm o yarn
+- Angular CLI 19
+
+### 2. Instalar Dependencias
+```bash
+npm install
+```
+
+### 3. Configurar API URL
+Verificar en `src/app/core/services/` que la URL del backend sea correcta:
+```typescript
+private apiUrl = 'http://localhost:5199/api';
+```
+
+### 4. Ejecutar
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+La aplicación estará disponible en: `http://localhost:4200`
 
-## Code scaffolding
+## 🔐 Características de Seguridad
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+| Característica | Implementación |
+|----------------|----------------|
+| Autenticación | JWT almacenado en localStorage |
+| Protección de Rutas | AuthGuard, RoleGuard |
+| Interceptor | Agrega token a cada request |
+| 2FA | Modal de verificación de código |
+| Roles | Cliente, Barbero, Administrador |
+
+## 📱 Módulos y Funcionalidades
+
+### Módulo de Autenticación
+- ✅ Login con validación
+- ✅ Registro de usuarios
+- ✅ Verificación 2FA
+- ✅ Logout seguro
+
+### Módulo Cliente
+- ✅ Dashboard personalizado
+- ✅ Wizard de agendamiento (3 pasos)
+- ✅ Ver próximas citas
+- ✅ Historial de citas
+- ✅ Cancelar/Reprogramar citas
+- ✅ Modales de confirmación
+
+### Módulo Barbero
+- ✅ Dashboard con agenda del día
+- ✅ Marcar citas completadas
+- ✅ Estadísticas de desempeño
+- ✅ Llamar a clientes
+
+### Módulo Administrador
+- ✅ Dashboard con métricas globales
+- ✅ Lista de citas del día
+- ✅ Gestión de barberos y servicios
+- ✅ Estadísticas generales
+
+## 🎨 Capturas de Pantalla
+
+### Login con 2FA
+El sistema solicita un código de verificación enviado por email.
+
+### Dashboard Cliente
+Visualización de próximas citas y acceso rápido para agendar.
+
+### Wizard de Agendamiento
+Proceso de 3 pasos: Barbero → Fecha/Hora → Servicio
+
+## 👤 Credenciales de Prueba
+
+| Rol | Email | Contraseña |
+|-----|-------|------------|
+| Cliente | cliente@barberia.com | Cliente123! |
+| Barbero | barbero@barberia.com | Barbero123! |
+| Admin | admin@barberia.com | Admin123! |
+
+## 🔗 Backend
+
+Repositorio del backend: [barberapp-backend](https://github.com/hmuyba/barberapp-backend)
+
+## 📝 Comandos Útiles
 
 ```bash
-ng generate component component-name
-```
+# Desarrollo
+ng serve
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+# Build producción
+ng build --configuration=production
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
+# Ejecutar tests
 ng test
+
+# Lint
+ng lint
 ```
 
-## Running end-to-end tests
+## 👨‍💻 Autor
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**Harold Muyba Castro**  
+Diplomado en Desarrollo Web y Móvil Full Stack  
+Universidad Católica Boliviana "San Pablo"  
+Diciembre 2025
