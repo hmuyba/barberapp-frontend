@@ -133,10 +133,3 @@ ng test
 # Lint
 ng lint
 ```
-
-## 👨‍💻 Autor
-
-**Harold Muyba Castro**  
-Diplomado en Desarrollo Web y Móvil Full Stack  
-Universidad Católica Boliviana "San Pablo"  
-Diciembre 2025
